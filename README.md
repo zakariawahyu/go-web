@@ -33,7 +33,17 @@
 - Kita bisa saja mengakses Web secara langsung tanpa bantuan Web Browser, namun Web Server akan memberikan informasi bahasa mesin HTML, JavaScript, Css, Gambar
 - Dengan menggunakan Web Browser, semua bahasa mesin tersbut akan bisa ditampilkan secara visual sehingga kita bisa menyerap informasi dengan lebih mudah
 
+**Tugas Client dan Server**
+- Aplikasi Client vertugas mengirim request ke server dan menerima response dari Server
+- Sedangkan aplikasi Server bertugas menerima request dari Client, memproses data, dan mengembalikan hasil proses data ke Client
+
 **Client dan Server**
 - Web adalah aplikasi berbasis Client dan Server, sekarang pertanyaanya apa itu Client dan Server?
 - Sederhananya client server merupakan konsep arsitektur aplikasi yang menghubungkan dua pihak, sistem client dan sistem server
 - Sistem client dan sistem server yang saling berkomunikasi melalui jaringan komputer, internet atau juga bisa di komputer yang sama
+
+**Contoh Client dan Server**
+- Web adalah sala satu contoh arsitektur client server
+- Aplikasi yang bertugas sebagai Client adalah Web Browser (Crome, Firefox, dan lain lain)
+- Aplikasi yang bertugas sebagai server adalah Web Serverdimana di dalam web server terdapat kode program Web kita
+- 
