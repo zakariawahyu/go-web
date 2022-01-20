@@ -212,4 +212,92 @@ Operator Perbandinigan
 - 	le (less than equal)	=> artinya arg1 <= arg2
 -	gt (greater than)		=> artinya arg1 > arg2
 - 	ge (greater than equal)	=> artinya arg1 >= arg2
+
+Kenapa Operatornya di Depan?
+- Hal ini dikarenakan, sebenarnya operator perbandingan tersebut adalah sebuah function
+- Jadi saat kita menggunakan {{eq First Secod}}, sebenarnya dia akan memanggil sebuah function eq dengan parameter First dan Second : eq(First, Second)
+*/
+
+func TemplateActionOperator(writer http.ResponseWriter, request *http.Request) {
+	t := template.Must(template.ParseFiles("./templates/comparator.gohtml"))
+	t.ExecuteTemplate(writer, "comparator.gohtml", map[string]interface{}{
+		"Title":      "Template Action Operator",
+		"FinalValue": 70,
+	})
+}
+
+func TestTemplateActionOperator(t *testing.T) {
+	request := httptest.NewRequest(http.MethodGet, "http://localhost:8080", nil)
+	recorder := httptest.NewRecorder()
+
+	TemplateActionOperator(recorder, request)
+	body, _ := io.ReadAll(recorder.Result().Body)
+	fmt.Println(string(body))
+}
+
+/**
+Range
+- Range digunakan untuk melakukan iterasi data template
+- Tidak ada perulanagan biasa seperti menggunakan for di Go-Lang template
+- Yang kita bisa lakukan adalah menggunakan range untuk mengiterasi tiap data array, slice, map datau channel
+- {{range $index, $element := .Value}} T1 {{end}}, jika value memiliki data, maka T1 akan dieksekusi sebanyak element value
+dan kita bisa menggunakan $index untuk mengakses index/key dan $element untuk mengakses element/value
+- {{range $index, $element := .Value}} T1 {{else}} T2 {{end}}, sama seperti sebelumnya, namun jika value tidak memiliki element apapun, maka T2 akan dieksekusi
+*/
+
+func TemplateActionRange(writer http.ResponseWriter, request *http.Request) {
+	t := template.Must(template.ParseFiles("./templates/range.gohtml"))
+	t.ExecuteTemplate(writer, "range.gohtml", map[string]interface{}{
+		"Title": "Template Action Range",
+		"Hobbies": []string{
+			"Game", "Read", "Code",
+		},
+	})
+}
+
+func TestTemplateActionRange(t *testing.T) {
+	request := httptest.NewRequest(http.MethodGet, "http://localhost:8080", nil)
+	recorder := httptest.NewRecorder()
+
+	TemplateActionRange(recorder, request)
+	body, _ := io.ReadAll(recorder.Result().Body)
+	fmt.Println(string(body))
+}
+
+/**
+With
+- Kadang kita sering membuat nested struct
+- Jika menggunakan template, kita bisa mengaksesnya menggunakan .Value.NestedValue
+- Di template terdapat action with, yang bisa digunakan mengubah scope dot menjadi object yang kita mau
+- {{with .Value}} <h1>{{.NestedValue}}</h1>{{end}}, jadi tidak pelu menuliskan .Value.NestedValue lagi
+- {{with .Value}} T1 {{end}}, jika value tidak kosong, di T1 semua dot akan merefer ke value
+- {{with .Value}} T1 {{else}} T2 {{end}}, sama seperti sebelumnya, namun jika value T1 kosong maka T2 akan dieksekusi
+*/
+
+func TemplateActionWith(writer http.ResponseWriter, request *http.Request) {
+	t := template.Must(template.ParseFiles("./templates/with.gohtml"))
+	t.ExecuteTemplate(writer, "with.gohtml", map[string]interface{}{
+		"Title": "Template Action With",
+		"Name":  "Zakaria Wahyu",
+		"Address": map[string]interface{}{
+			"Street": "Mangga Besar",
+			"City":   "Jakarta Barat",
+		},
+	})
+}
+
+func TestTemplateActionWith(t *testing.T) {
+	request := httptest.NewRequest(http.MethodGet, "http://localhost:8080", nil)
+	recorder := httptest.NewRecorder()
+
+	TemplateActionWith(recorder, request)
+	body, _ := io.ReadAll(recorder.Result().Body)
+	fmt.Println(string(body))
+}
+
+/**
+Comment
+- Template juga mendukung komentar
+- Komentar secara otomatis akan hilang ketika template text di parsing
+- Untuk membuat komentar sangat sederhana, kita bisa menggunakan {{/* Contoh Komentar * /}}
 */
